@@ -67,8 +67,8 @@ def write_board(str):
     driver.find_element_by_xpath('//*[@id="wrap"]/div[3]/div/div/section/div/div/div/div[3]/div/div[2]/button').click()
     time.sleep(3)
 
-def macro(id, pw, urls, content, i):
-    print(i,'번째 매크로 실행 중...')
+def macro(id, pw, urls, content, count):
+    print(count,'번째 매크로 실행 중...')
     for url in urls:
         driver.get(url)
         time.sleep(3)
@@ -78,34 +78,63 @@ def macro(id, pw, urls, content, i):
 
         time.sleep(5)
         write_board(content)
-    print(i,"번째 매크로 실행 완료!")
+    print(count,"번째 매크로 실행 완료!")
+
+def getBandList(id, pw):
+    print('가입된 밴드 목록 가져오는 중...')
+    driver.get('https://band.us/my/profiles')
+    time.sleep(3)
+
+    if driver.current_url != 'https://band.us/my/profiles':
+        login(id,pw)
+    
+    bandListSize = len(driver.find_elements_by_xpath('//*[@id="content"]/section/div[2]/section/ul/*'))
+    
+    bandList = list()
+    for i in range(1, bandListSize+1):
+        name = driver.find_element_by_xpath(f'//*[@id="content"]/section/div[2]/section/ul/li[{i}]/span[2]').text.strip()
+        url = driver.find_element_by_xpath(f'//*[@id="content"]/section/div[2]/section/ul/li[{i}]').get_attribute('data-band-no')
+        bandList.append({'name':name,'url':'https://band.us/band/'+url})
+
+    return bandList
+
+class MacroThread(QThread):
+    finished_event = pyqtSignal()
+    def __init__(self, id, pw, urls, content, parent=None):
+        super().__init__()
+        self.id = id
+        self.pw = pw
+        self.urls = urls.split(',')
+        self.content = content
+        self.count = 0
+ 
+    def run(self):
+        macro(self.id, self.pw, self.urls, self.content, self.count)
+        self.finished_event.emit()
 
 class IntervalThread(QThread):
     def __init__(self, id, pw, urls, delay, content, parent=None):
         QThread.__init__(self, parent)
-        self.id = id
-        self.pw = pw
-        self.urls = urls.split(',')
         self.delay = delay
-        self.content = content
         self.count = 0
+        self.macroThread = MacroThread(parent=self, id=id, pw=pw, urls=urls, content=content)
+        self.macroThread.finished_event.connect(self.finished)
 
     def run(self):
-        timeInSec = int(self.delay)*1000
-        self.timerVar = QTimer()
-        self.timerVar.setInterval(timeInSec)
-        self.timerVar.timeout.connect(self.startMacro)
-        self.timerVar.start()
-        self.exec_()
+        self.startMacro()
 
     def startMacro(self):
-        if len(self.urls) == 0:
-            return
         self.count+=1
-        macro(self.id, self.pw, self.urls, self.content, self.count)
+        self.macroThread.count = self.count
+        self.macroThread.start()
 
     def stop(self):
-        self.timerVar.stop()
+        self.macroThread.terminate()
+
+    @pyqtSlot()
+    def finished(self):
+        QTimer.singleShot(int(self.delay)*1000, self.startMacro)
+        
 
 class MyApp(QWidget):
 
@@ -168,6 +197,13 @@ class MyApp(QWidget):
  
         self.urlsEdit = QLineEdit(self)
 
+        combinedText = ""
+        for band in getBandList('chad0706', 'asdf0706'):
+            combinedText += band['url']+','
+        combinedText = combinedText[:-1]
+
+        self.urlsEdit.setText(combinedText)
+
         self.urlsEdit.textChanged.connect(self.validateText)
 
         #self.urlsEdit.setValidator(QRegExpValidator(QRegExp("https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?(,)?"),self))
@@ -218,13 +254,13 @@ class MyApp(QWidget):
         self.StartButton.setEnabled(enabled)
         
     def startInterval(self):
-        self.intervalTask = IntervalThread(id=self.idEdit.text(), pw=self.pwEdit.text(), urls=self.urlsEdit.text(), delay=self.delayEdit.text(), content=self.contentEdit.toPlainText())
+        self.intervalTask = IntervalThread(parent=self, id=self.idEdit.text(), pw=self.pwEdit.text(), urls=self.urlsEdit.text(), delay=self.delayEdit.text(), content=self.contentEdit.toPlainText())
         self.intervalTask.start()
         self.StartButton.setEnabled(False)
         self.StopButton.setEnabled(True)
 
-    #@pyqtSlot()
     def stopInterval(self):
+        self.intervalTask.stop()
         self.intervalTask.terminate()
         self.StartButton.setEnabled(True)
         self.StopButton.setEnabled(False)
