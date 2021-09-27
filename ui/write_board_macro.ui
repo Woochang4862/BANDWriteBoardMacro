@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>824</width>
+    <height>637</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>채팅방 생성 매크로</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <layout class="QFormLayout" name="formLayout_3">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_id">
+            <property name="text">
+             <string>이메일</string>
+            </property>
+            <property name="buddy">
+             <cstring>id_edit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_pw">
+            <property name="text">
+             <string>비밀번호</string>
+            </property>
+            <property name="buddy">
+             <cstring>pw_edit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="id_edit">
+            <property name="placeholderText">
+             <string>이메일</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="pw_edit">
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+            <property name="placeholderText">
+             <string>비밀번호</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_ip">
+            <property name="text">
+             <string>아이피</string>
+            </property>
+            <property name="buddy">
+             <cstring>ip_edit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="ip_edit">
+            <property name="placeholderText">
+             <string>아이피</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QPushButton" name="validate_btn">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>확인</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="band_browse_btn">
+            <property name="text">
+             <string>밴드 불러오기</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="toolTip">
+       <string/>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="band_list_tab">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <attribute name="title">
+        <string>밴드목록</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QListWidget" name="band_list_view">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <item>
+           <property name="text">
+            <string>밴드 이름(밴드 아이디)</string>
+           </property>
+           <property name="checkState">
+            <enum>Checked</enum>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="content_tab">
+       <attribute name="title">
+        <string>게시글 내용</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <widget class="QPlainTextEdit" name="content_edit">
+          <property name="plainText">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="log_tab">
+       <attribute name="title">
+        <string>작업상황</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QTextBrowser" name="log_view"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_rsrv_start">
+        <property name="text">
+         <string>예약시작</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_rsrv_interval">
+        <property name="text">
+         <string>간격</string>
+        </property>
+        <property name="buddy">
+         <cstring>rsrv_interval_edit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="rsrv_interval_edit">
+        <property name="placeholderText">
+         <string>5분 단위로 입력</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_delay">
+        <property name="text">
+         <string>딜레이</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="delay_edit">
+        <property name="placeholderText">
+         <string>초 단위로 입력</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDateTimeEdit" name="rsrv_datetime_edit">
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QProgressBar" name="progressBar">
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="invertedAppearance">
+         <bool>true</bool>
+        </property>
+        <property name="textDirection">
+         <enum>QProgressBar::TopToBottom</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QPushButton" name="run_btn">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>실행</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="stop_btn">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>중지</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>run_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_run_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>234</x>
+     <y>618</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>573</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stop_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_stop_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>595</x>
+     <y>608</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>821</x>
+     <y>610</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>validate_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_validation_account_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>802</x>
+     <y>27</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>869</x>
+     <y>58</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tabWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_tab_changed(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>72</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>515</x>
+     <y>23</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>content_edit</sender>
+   <signal>textChanged()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_content_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>508</x>
+     <y>208</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>827</x>
+     <y>177</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ip_edit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_ip_editing_finished()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>676</x>
+     <y>72</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>736</x>
+     <y>-16</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>id_edit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_id_editing_finished()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>180</x>
+     <y>16</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>-12</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pw_edit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_pw_editing_finished()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>388</x>
+     <y>48</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>508</x>
+     <y>-4</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>band_browse_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_band_browse_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>773</x>
+     <y>64</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>747</x>
+     <y>7</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rsrv_datetime_edit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_rsrv_datetime_edited()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>646</x>
+     <y>507</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>825</x>
+     <y>496</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rsrv_interval_edit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_interval_editing_finished()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>292</x>
+     <y>529</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>821</x>
+     <y>540</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>delay_edit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_delay_editing_finished()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>410</x>
+     <y>559</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>821</x>
+     <y>574</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>on_validation_account_clicked()</slot>
+  <slot>on_run_clicked()</slot>
+  <slot>on_stop_clicked()</slot>
+  <slot>on_tab_changed(int)</slot>
+  <slot>on_id_editing_finished()</slot>
+  <slot>on_pw_editing_finished()</slot>
+  <slot>on_ip_editing_finished()</slot>
+  <slot>on_content_changed()</slot>
+  <slot>on_band_browse_clicked()</slot>
+  <slot>on_rsrv_datetime_edited()</slot>
+  <slot>on_interval_editing_finished()</slot>
+  <slot>on_delay_editing_finished()</slot>
+ </slots>
+</ui>
